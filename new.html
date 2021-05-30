@@ -23,9 +23,17 @@
         "<br>Longitude: " +
         position.coords.longitude;
 
-    const location_API = `http://maps.googleapis.com/maps/api/geocode/json?latlng=${position.coords.latitude},${position.coords.longitude}&sensor=true&key=AIzaSyB7Qxe2vwmcvrU3b8IzgJOTwg5YchPFPNo`;
+    const location_API = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}&localityLanguage=en`;
 
-    x.innerHTML = location_API;
+
+    let xhr = new XMLHttpRequest();
+    xhr.open('get', location_API);
+    xhr.send();
+
+    xhr.onload = function() {
+      const res =  JSON.parse(xhr.response);
+      x.innerHTML =`<h2>${res.localityInfo.administrative[2].name} , ${res.localityInfo.administrative[2].description}</h2>`;
+      };
 
     }
   </script>
